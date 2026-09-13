@@ -1,5 +1,5 @@
 /** JavaScript設定値をTypeScript側から参照するための宣言です。 */
-import type { Difficulty } from '../App'
+import type { Difficulty } from '../types/gameTypes'
 
 export const ROUND_TIME_SECONDS: number
 export const GROUND_TOP: number

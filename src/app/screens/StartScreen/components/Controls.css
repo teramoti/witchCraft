@@ -1,0 +1,62 @@
+.flowerStartControls { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.12); }
+.flowerControlBlock + .flowerControlBlock { margin-top: 10px; }
+.flowerControlBlock label { display: block; margin-bottom: 5px; color: #d5c3ec; font-size: 10px; font-weight: 900; letter-spacing: .18em; }
+.flowerPlayerButtons { display: grid; grid-template-columns: repeat(4,1fr); gap: 7px; }
+.flowerDifficultyButtons { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
+.flowerPlayerButtons button,
+.flowerDifficultyButtons button,
+.flowerHowTo,
+.flowerStartButton {
+  border: 2px solid rgba(218,194,255,.30);
+  border-radius: 11px;
+  color: #fff;
+  background: rgba(16,14,32,.74);
+  cursor: pointer;
+  transition: transform .1s ease, border-color .1s ease, filter .1s ease;
+}
+.flowerPlayerButtons button { padding: 8px 4px; font-size: 15px; font-weight: 900; }
+.flowerDifficultyButtons button { min-height: 53px; padding: 6px 5px; }
+.flowerDifficultyButtons b { display: block; color: #fff0b0; font-size: 12px; }
+.flowerDifficultyButtons small { display: block; margin-top: 2px; color: #cfc2df; font-size: 8px; line-height: 1.2; }
+.flowerPlayerButtons button.selected,
+.flowerDifficultyButtons button.selected { border-color: #ffe38a; box-shadow: 0 0 15px rgba(255,216,120,.11); }
+.flowerDifficultyButtons button.difficulty-easy.selected { border-color: #96efba; background: linear-gradient(180deg, rgba(49,105,76,.96), rgba(31,64,50,.96)); }
+.flowerDifficultyButtons button.difficulty-normal.selected { border-color: #e2b0ff; background: linear-gradient(180deg, rgba(109,68,136,.96), rgba(63,39,84,.96)); }
+.flowerDifficultyButtons button.difficulty-hard.selected { border-color: #ffa48a; background: linear-gradient(180deg, rgba(126,55,62,.96), rgba(73,35,48,.96)); }
+
+.flowerDifficultyDetail {
+  position: relative;
+  margin-top: 9px;
+  padding: 8px 10px 8px;
+  border-radius: 11px;
+  border: 1px solid rgba(255,255,255,.13);
+  background: rgba(8,8,20,.31);
+  min-height: 68px;
+}
+.flowerDifficultyDetail.difficulty-easy { border-color: rgba(101,220,162,.28); }
+.flowerDifficultyDetail.difficulty-normal { border-color: rgba(180,123,232,.32); }
+.flowerDifficultyDetail.difficulty-hard { border-color: rgba(232,120,105,.32); }
+.flowerDifficultyStats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; padding-right: 110px; }
+.flowerDifficultyStats span { color: #aaa0b9; font-size: 7px; font-weight: 900; text-align: center; }
+.flowerDifficultyStats b { display: block; color: #fff2bd; font-size: 13px; }
+.flowerDifficultyDetail p { margin: 5px 112px 0 0; color: #cbbfd9; font-size: 9px; line-height: 1.28; }
+.flowerDifficultyPalette { position: absolute; right: 9px; top: 10px; width: 96px; display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 1px; }
+.flowerDifficultyPalette img { width: 29px; height: 29px; object-fit: contain; }
+
+.flowerStartActions { display: grid; grid-template-columns: 120px 1fr; gap: 9px; margin-top: 10px; }
+.flowerHowTo { padding: 10px; font-size: 13px; font-weight: 900; }
+.flowerStartButton {
+  padding: 10px;
+  border-color: #fff0a6;
+  color: #45280e;
+  background: linear-gradient(180deg,#fff3aa,#ffbe56);
+  font-size: 17px;
+  font-weight: 1000;
+  box-shadow: 0 5px 0 #925219;
+}
+.flowerPlayerButtons button:hover,
+.flowerDifficultyButtons button:hover,
+.flowerHowTo:hover,
+.flowerStartButton:hover { transform: translateY(-1px); }
+.flowerStartButton:active { transform: translateY(3px); box-shadow: 0 2px 0 #925219; }
+.flowerPlayerButtons button:disabled { opacity: .7; cursor: default; }

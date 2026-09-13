@@ -1,0 +1,9 @@
+export const GAME_W = 1600
+export const GAME_H = 900
+export const BOARD_LEFT = 188
+export const BOARD_TOP = 180
+export const BOARD_W = 900
+export const BOARD_H = 560
+export const PANEL_X = 1118
+export const PANEL_W = 408
+export const ROW_COUNT = 4

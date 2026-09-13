@@ -2,7 +2,7 @@
  * React側から元PJの`GameManager.ts`を呼び出し、Phaser Canvasを保持します。
  */
 import { useEffect, useRef } from 'react'
-import type { GameResult, GameSettings } from '../../App'
+import type { GameResult, GameSettings } from '../../types/gameTypes'
 import { destroyGame, startGame } from '../../../game/GameManager'
 import './GameScreen.css'
 

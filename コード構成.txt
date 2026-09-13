@@ -1,0 +1,469 @@
+﻿花染めの錬金ラボ　コード構成・コンフリクト回避方針
+==================================================
+
+目的
+----
+6人開発・PG5人を前提に、同じファイルを同時編集する確率を下げる。
+「Sceneに全部書く」「1つのManagerへ全部追加する」は禁止し、変更理由ごとに編集先を分ける。
+担当者は固定しない。各自が選んだタスクに対応するファイルだけを触る。
+
+現在の接着ファイル
+------------------
+- src/scenes/Start.js: 34行
+- src/app/App.tsx: 40行
+- src/game/GameManager.ts: 67行
+- src/game/systems/MixResolutionSystem.js: 38行
+- src/game/systems/HudSystem.js: 18行
+- src/game/systems/TargetPanelSystem.js: 24行
+- src/game/systems/TurnResultSystem.js: 23行
+- src/game/session/GameSessionStore.ts: 50行
+
+Start.jsへゲーム機能を直接追加しない。
+新しい機能は、下記の該当フォルダへ追加する。
+
+
+==================================================
+1. Phaser Scene lifecycle
+==================================================
+
+src/scenes/Start.js
+- constructor / init / preload / createだけ。
+- Sceneそのものの接着点。
+- ゲーム仕様、Tween、盤面処理、スコア処理を書かない。
+
+src/game/runtime/StartSceneRuntime.js
+- GameManagerから渡された設定と終了callback。
+
+src/game/runtime/StartSceneState.js
+- 1ターン開始時の状態初期化。
+- scene.restartで古いGameObject参照を残さない。
+
+src/game/runtime/StartSceneSystems.js
+- Systemインスタンス生成だけ。
+- 新Systemを追加した場合の登録場所。
+
+src/game/runtime/StartSceneCreate.js
+- create時の画面構築順序。
+- 背景→HUD→盤面→レシピ→キャラ→入力→カウントダウン。
+
+
+==================================================
+2. Scene Facade
+==================================================
+
+src/game/facades/CompanionSceneFacade.js
+- scene.setCatMood / setWitchMood
+
+src/game/facades/HudSceneFacade.js
+- scene.createHud / refreshHud
+
+src/game/facades/TargetPanelSceneFacade.js
+- scene.createTargetPanel / refreshTargetPanel / setFeedback
+
+src/game/facades/BoardSceneFacade.js
+- 盤面表示API
+
+src/game/facades/InputSceneFacade.js
+- ドラッグ・プレビュー・移動確定API
+
+src/game/facades/PuzzleSceneFacade.js
+- お題、色、素材選択API
+
+src/game/facades/MixSceneFacade.js
+- 判定、成功、失敗、FEVER、錬金演出API
+
+src/game/facades/RoundSceneFacade.js
+- タイマー、TIME UP、ターン終了API
+
+src/game/facades/installStartSceneFacades.js
+- 上記FacadeをSceneへ登録するだけ。
+
+機能担当者は原則、自分の領域のFacade以外を編集しない。
+
+
+==================================================
+3. 盤面
+==================================================
+
+src/game/systems/BoardViewSystem.js
+- 盤面表示Facade。
+
+src/game/systems/BoardLayoutSystem.js
+- セル座標、列数、プレビュー位置。
+
+src/game/systems/BoardRenderSystem.js
+- 花タイル描画、色名、pointerdown。
+
+src/game/utilities/BoardGenerator.js
+- 1手で解ける配置を仕込む。
+
+src/game/utilities/PuzzlePicker.js
+- 基本色、お題選択。
+
+src/game/utilities/BoardUtility.js
+- 互換用re-export。
+- 新しい処理はここへ追加しない。
+
+
+==================================================
+4. 入力
+==================================================
+
+src/game/systems/SlideInputSystem.js
+- 入力Facade。
+
+src/game/systems/DragInputSystem.js
+- pointermove / pointerup。
+- 隣接1マス判定。
+
+src/game/systems/SlidePreviewSystem.js
+- 移動前プレビュー、候補強調。
+
+src/game/systems/SlideCommitSystem.js
+- 1マス交換確定、move加算。
+
+
+==================================================
+5. 錬金判定・成功・失敗
+==================================================
+
+src/game/systems/MixFlowSystem.js
+- 錬金Facade。
+
+src/game/systems/MixResolutionSystem.js
+- 移動後に成功/失敗へ振り分ける接着処理。
+
+src/game/systems/MatchFinderSystem.js
+- 動かした花を含む3マス候補の検索。
+
+src/game/systems/MixSuccessSystem.js
+- 成功回数、STREAK、得点、次お題、成功リアクション。
+
+src/game/systems/MixMissSystem.js
+- MISS、時間ペナルティ、失敗リアクション。
+
+src/game/systems/MixPresentationSystem.js
+- 成功したセル位置から錬金演出を呼ぶ。
+
+src/game/systems/FeverSystem.js
+- 3連続成功、6秒、1.5倍、FEVERゲージ。
+
+判定変更と成功演出変更が別ファイルなので、同時作業しやすい。
+
+
+==================================================
+6. レシピ・得点
+==================================================
+
+src/game/config/recipeConfig.js
+- 9レシピ定義。
+
+src/game/utilities/RecipeRuleUtility.js
+- recipeSignature / recipeMatches / 3マス判定。
+
+src/game/utilities/ScoreUtility.js
+- 基礎点、STREAK、FEVER、難易度倍率。
+
+src/game/utilities/AlchemyRules.js
+- 互換用re-export。
+- 新規ロジックを直接書かない。
+
+
+==================================================
+7. HUD
+==================================================
+
+src/game/systems/HudSystem.js
+- HUD Facade。
+
+src/game/systems/HudCreateSystem.js
+- HUD生成の接着。
+
+src/game/systems/HudHeaderView.js
+- タイトル、PLAYER、SCORE、TIME。
+
+src/game/systems/HudInstructionView.js
+- 操作説明テキスト。
+
+src/game/systems/HudRefreshSystem.js
+- 数値更新とReact HUD通知。
+
+
+==================================================
+8. レシピパネル
+==================================================
+
+src/game/systems/TargetPanelSystem.js
+- パネルFacade。
+
+src/game/systems/TargetPanelViewSystem.js
+- 4つのViewを作るだけ。
+
+src/game/systems/TargetRecipeCardView.js
+- 紙カード、今回のお題、完成ポーション。
+
+src/game/systems/TargetStatusView.js
+- GOOD MIX / NO MIX、STREAK。
+
+src/game/systems/FeverHudView.js
+- FEVERラベル、ゲージ、説明。
+
+src/game/systems/SideStatsView.js
+- MIX / MOVE / MISS / FEVER回数。
+
+src/game/systems/TargetRecipeSystem.js
+- お題変更時の3素材とポーション更新。
+
+src/game/systems/FeedbackSystem.js
+- 一時フィードバック表示。
+
+
+==================================================
+9. 猫・魔女
+==================================================
+
+src/game/systems/CompanionController.js
+- 猫と魔女のFacade。
+
+src/game/systems/CatCompanionController.js
+- 猫だけ。
+- 猫画像、猫ポーズ、猫タイマーを変更する時の編集先。
+
+src/game/systems/WitchCompanionController.js
+- 魔女だけ。
+- 魔女画像、成功/失敗/焦りモーションを変更する時の編集先。
+
+猫担当と魔女担当は同じファイルを触らない。
+
+
+==================================================
+10. アニメーションUtility
+==================================================
+
+src/game/utilities/AnimationUtility.js
+- Sceneから使う演出Facade。
+
+src/game/utilities/SpriteLayoutUtility.js
+- 元画像の縦横比を維持したfit、足元位置合わせ。
+
+src/game/utilities/TweenAnimationUtility.js
+- 待機/リアクションUtilityのFacade。
+
+src/game/utilities/IdleMotionUtility.js
+- idleFloat / breathe。
+
+src/game/utilities/ReactionMotionUtility.js
+- bounce / shake / wobble / pulse。
+
+src/game/utilities/MixAnimationUtility.js
+- 錬金リング、ポーション生成、成功バースト。
+
+アニメーション追加時にキャラControllerへTweenを直書きしない。
+
+
+==================================================
+11. ターン終了
+==================================================
+
+src/game/systems/RoundFlowSystem.js
+- ターンFacade。
+
+src/game/systems/CountdownSystem.js
+- 1秒時計、残り10秒リアクション。
+
+src/game/systems/TurnResultSystem.js
+- TIME UP後の結果処理接着。
+
+src/game/systems/TurnResultBuilder.js
+- 1プレイヤー分のstats構築。
+
+src/game/systems/TurnTransitionSystem.js
+- TIME UP overlay、次プレイヤーrestart、最終Result通知。
+
+
+==================================================
+12. 背景
+==================================================
+
+src/game/systems/BackdropSystem.js
+- 錬金工房背景。
+- 盤面・入力・得点には触れない。
+
+
+==================================================
+13. 難易度・色・画面定数
+==================================================
+
+src/game/config/layoutConfig.js
+- 画面/盤面位置。
+
+src/game/config/colorConfig.js
+- 色表示情報。
+
+src/game/config/recipeConfig.js
+- レシピ。
+
+src/game/config/difficultyConfig.js
+- EASY / NORMAL / HARD / PHANTOM。
+
+src/game/config/alchemyConfig.js
+- 互換用集約export。
+
+
+==================================================
+14. 素材Catalog
+==================================================
+
+src/game/assets/flowerAssetCatalog.js
+- 花30種。
+
+src/game/assets/potionAssetCatalog.js
+- ポーション候補。
+
+src/game/assets/companionAssetCatalog.js
+- 猫・魔女。
+
+src/game/assets/effectAssetCatalog.js
+- 成功エフェクト。
+
+src/game/assets/audioAssetCatalog.js
+- ゲームSE。
+
+src/game/config/alchemyAssets.js
+- CatalogをPhaserへpreloadする集約。
+
+画像追加担当は素材Catalogを編集し、Start.jsへimportを追加しない。
+
+
+==================================================
+15. ゲームセッション
+==================================================
+
+src/game/session/GameSessionTypes.ts
+- セッション型。
+
+src/game/session/GameSessionFactory.ts
+- 初期state、playerCount正規化。
+
+src/game/session/GameSessionStore.ts
+- state保持、subscribe、reset。
+
+src/game/session/GameSessionActions.ts
+- 開始、HUD反映、終了、停止。
+
+src/game/session/HudStateBridge.ts
+- Phaser CustomEventをStoreへ橋渡し。
+
+セッション状態とゲームロジックを同じファイルへ書かない。
+
+
+==================================================
+16. Phaser起動
+==================================================
+
+src/game/PhaserGameFactory.ts
+- Phaser.Game設定。
+
+src/game/GameManager.ts
+- ReactからPhaserを開始/破棄する接着処理。
+
+
+==================================================
+17. React App
+==================================================
+
+src/app/App.tsx
+- 画面を表示するだけ。
+
+src/app/hooks/useAppFlow.ts
+- start / game / result の遷移状態。
+
+画面遷移ロジック変更と各画面UI変更を分離する。
+
+
+==================================================
+18. タイトル画面
+==================================================
+
+src/app/screens/StartScreen/StartScreen.tsx
+- タイトルの組み立て。
+
+src/app/screens/StartScreen/useStartScreenState.ts
+- 人数、難易度、開始状態、タイトル猫切替。
+
+src/app/screens/StartScreen/initialPlayerState.ts
+- URL playerCount初期値。
+
+src/app/screens/StartScreen/useEmbeddedPlayerCount.ts
+- 親windowとのplayerCount連携。
+
+src/app/hooks/useLoopingAudio.ts
+- タイトル/リザルト共通のBGM再生。
+
+src/app/hooks/useCycledIndex.ts
+- タイトル猫など一定間隔切替。
+
+components/
+- RecipePreview.tsx
+- PlayerSelector.tsx
+- DifficultySelector.tsx
+- TitleHero.tsx
+- HowToModal.tsx
+
+タイトルUI担当は基本componentsだけを触る。
+
+
+==================================================
+19. リザルト
+==================================================
+
+src/app/screens/ResultScreen/ResultScreen.tsx
+- リザルト組み立て。
+
+src/app/screens/ResultScreen/useResultRanking.ts
+- スコア順と順位map。
+
+src/app/screens/ResultScreen/resultActions.ts
+- GameClear postMessage。
+
+src/app/screens/ResultScreen/resultPresentation.ts
+- 称号・表示情報。
+
+components/ResultHeader.tsx
+components/RankingCard.tsx
+- Headerと各プレイヤーカードを分離。
+
+
+==================================================
+20. コンフリクトを増やさない運用ルール
+==================================================
+
+1. Start.jsへ機能を書かない。
+2. App.tsxへゲーム仕様を書かない。
+3. GameManager.tsへ盤面/得点/UI仕様を書かない。
+4. 猫変更でWitchCompanionControllerを触らない。
+5. 魔女変更でCatCompanionControllerを触らない。
+6. アニメーションはUtilityへ追加する。
+7. 花追加はflowerAssetCatalogだけを主編集先にする。
+8. ポーション追加はpotionAssetCatalogだけを主編集先にする。
+9. 得点調整はScoreUtilityを主編集先にする。
+10. レシピ追加はrecipeConfigとRecipeRuleUtilityを主編集先にする。
+11. UI見た目変更とゲームロジック変更を同じcommitへ混ぜない。
+12. 大規模formatだけのcommitを機能commitと混ぜない。
+13. 作業開始前に編集予定ファイルをチームで宣言する。
+14. 共通Facade変更が必要な場合は先に小さいcommitとして共有する。
+15. 新しい機能で既存Systemが肥大化する場合は新Systemを作る。
+
+
+==================================================
+現在の静的確認
+==================================================
+
+- JavaScript: 80ファイル、node --checkエラー0。
+- TypeScript: tsc --noEmit -p tsconfig.json エラー0。
+- 相対import: 301件、欠損0。
+- レシピ順序違い: 54ケース通過。
+- 1手解生成: EASY/NORMAL/HARD 合計900ケース通過。
+- src/main.tsxからの到達不能コードは型宣言.d.tsの4ファイルのみ。
+- assets: 82ファイル。全82ファイル名がソース参照に存在。
+- npm ci / npm run build / npm run dev実ブラウザ確認は、この環境では未完了。

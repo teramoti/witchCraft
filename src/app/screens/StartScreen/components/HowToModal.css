@@ -1,0 +1,19 @@
+.flowerModal { position: absolute; z-index: 20; inset: 0; display: grid; place-items: center; background: rgba(16,9,27,.84); }
+.flowerModal > section {
+  position: relative;
+  width: 800px;
+  padding: 31px;
+  border: 2px solid #d7b5f7;
+  border-radius: 21px;
+  background: linear-gradient(160deg,#30203f,#1a1930);
+  box-shadow: 0 28px 80px #000a;
+}
+.flowerModal p { margin: 0; color: #9ce9ff; font-weight: 900; letter-spacing: .2em; }
+.flowerModal h2 { margin: 7px 0 19px; color: #fff1ae; font-size: 26px; }
+.flowerModalClose { position: absolute; right: 18px; top: 13px; border: 0; background: transparent; color: #fff; font-size: 30px; cursor: pointer; }
+.flowerHowToSteps.compact { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.flowerHowToSteps article { display: grid; grid-template-columns: 38px 1fr; padding: 12px; border-radius: 13px; background: #131225; border: 1px solid #58446d; }
+.flowerHowToSteps article > b { grid-row: 1 / 3; align-self: center; color: #ffe06f; font-size: 24px; }
+.flowerHowToSteps strong { color: #f4efff; font-size: 14px; }
+.flowerHowToSteps span { margin-top: 3px; color: #c8bfd4; font-size: 11px; line-height: 1.45; }
+.flowerHowToNote { margin-top: 13px; padding: 10px 12px; border-radius: 10px; background: rgba(255,194,116,.08); color: #e4d7c7; font-size: 12px; text-align: center; }

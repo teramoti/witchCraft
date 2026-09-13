@@ -1,5 +1,5 @@
 /** JavaScriptで実装した得点・順位処理をTypeScript側から参照する宣言です。 */
-import type { PlayerResult, ScoreBreakdown } from '../app/App'
+import type { PlayerResult, ScoreBreakdown } from '../app/types/gameTypes'
 
 /** Player番号順のscore配列から、同点を含む競技順位を返します。 */
 export function getRanksFromScores(scores: number[]): number[]

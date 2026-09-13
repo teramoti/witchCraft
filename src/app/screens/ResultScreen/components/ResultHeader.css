@@ -1,0 +1,16 @@
+.flowerResultHeader { height: 116px; display: flex; justify-content: space-between; align-items: flex-start; color: #fff; }
+.flowerResultHeader p { margin: 0; color: #9ce9ff; font-size: 10px; font-weight: 900; letter-spacing: .24em; }
+.flowerResultHeader h1 { margin: 3px 0 -3px; color: #fff0bd; font-family: Georgia, serif; font-size: 55px; line-height: 1; letter-spacing: .05em; }
+.flowerResultHeader span { color: #cfc2dd; font-size: 13px; }
+.flowerWinnerBadge {
+  width: 180px;
+  padding: 12px 16px;
+  border: 2px solid #ffe183;
+  border-radius: 14px;
+  background: rgba(75,43,87,.72);
+  color: #fff;
+  text-align: center;
+}
+.flowerWinnerBadge small { display: block; color: #ffe79d; font-size: 10px; font-weight: 900; letter-spacing: .16em; }
+.flowerWinnerBadge strong { display: block; margin-top: 2px; font-family: Georgia,serif; font-size: 24px; color: #fff4d0; }
+.flowerWinnerBadge b { display: block; color: #8fe9ff; font-size: 17px; }

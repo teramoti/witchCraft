@@ -1,0 +1,61 @@
+﻿花染めの錬金ラボ　実使用素材一覧
+================================
+
+このファイルには、現在のソースコードから参照している素材だけを記載する。最終静的監査で assets 82ファイルすべてに参照があり、未参照素材は0件。
+アイデアや未使用素材候補はここへ書かない。
+
+【花】
+場所: assets/Image/generated/flowers/
+実ファイル数: 30
+内訳: 赤6 / 青6 / 黄6 / 白6 / 黒6
+用途: 盤面とレシピカード。同色カテゴリ内からランダム表示。
+
+【ポーション】
+場所: assets/Image/generated/potions/
+実ファイル数: 24
+ゲーム上の完成色: 紫 / 緑 / 橙 / 桃 / 水色 / 淡黄 / 深紅 / 紺 / 苔
+各完成色はコード上3候補を持つ。一部候補画像は複数完成色で共有しているため、実ファイル数は27ではなく24。
+用途: レシピカードと成功時ポーション生成。
+
+【黒猫】
+場所: assets/Image/generated/cats/
+実ファイル数: 8
+idle1 / idle2 / walk / happy / surprised / question / sleep / roll
+用途: タイトル・ゲーム・リザルト側の猫表示。
+ゲーム中の猫状態制御は src/game/systems/CatCompanionController.js。
+魔女とは別Controllerなので猫変更時に魔女ファイルを編集しない。
+
+【魔女】
+場所: assets/Image/witch/pink/
+実ファイル数: 9
+title / idle / success / fail / panic / rank1 / rank2 / rank3 / rank4
+現在のWITCH_SKIN_IDSは pink の1種類。
+ゲーム中の魔女状態制御は src/game/systems/WitchCompanionController.js。
+
+【成功エフェクト】
+assets/Image/generated/effects/
+- effect_mix.png
+- effect_petals.png
+
+assets/Image/alchemy/effects/
+- 08_rainbow_slash.png（リザルト）
+- 09_gold_burst.png（ゲーム成功演出）
+- 10_rainbow_swirl_burst.png（ゲーム成功演出）
+
+【リザルト背景】
+assets/Image/alchemy_ui/result_backdrop.png
+
+【音声】
+assets/audio/
+- start_theme.wav
+- result_theme.wav
+- start.wav
+- collect.wav
+- click.mp3
+
+【整理方針】
+- コードから参照されない画像は提出前監査で削除する。
+- 元素材シートや切り出し作業用画像は提出ZIPへ入れない。
+- 同一画像の重複コピーを増やさない。
+- 花追加は src/game/assets/flowerAssetCatalog.js、ポーション追加は potionAssetCatalog.js、猫追加は companionAssetCatalog.jsへ登録する。
+- alchemyAssets.jsは集約preload用なので、素材種別の大量importを戻さない。

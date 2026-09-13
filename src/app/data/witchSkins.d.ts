@@ -1,4 +1,4 @@
-export type WitchSkinId = 'burgundy' | 'emerald' | 'royalblue' | 'purple' | 'sunflower' | 'pink' | 'mint' | 'navy'
+export type WitchSkinId = 'pink'
 export type WitchSkinAssets = {
   title: string
   idle: string

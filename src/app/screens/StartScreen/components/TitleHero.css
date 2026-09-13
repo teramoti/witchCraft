@@ -1,0 +1,126 @@
+.flowerAlchemyHero {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 58% 40%, rgba(111,222,255,.24), transparent 23%),
+    radial-gradient(circle at 46% 42%, rgba(255,196,103,.18), transparent 38%),
+    linear-gradient(155deg,#182944 0%,#28345c 42%,#2f234b 100%);
+}
+.flowerAlchemyHero::before {
+  content: "";
+  position: absolute;
+  inset: 7% 8% 16%;
+  border: 1px solid rgba(255,238,184,.20);
+  border-radius: 50%;
+  box-shadow: inset 0 0 48px rgba(140,213,255,.08), 0 0 42px rgba(151,105,255,.08);
+}
+.flowerAlchemyHero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(29,19,46,.27), transparent 25%), linear-gradient(0deg, rgba(24,16,37,.55), transparent 34%);
+  pointer-events: none;
+}
+.flowerTitleWitch {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 48%;
+  width: 72%;
+  height: 72%;
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 22px 22px rgba(0,0,0,.35));
+  animation: flowerTitleWitchFloat 2.6s ease-in-out infinite;
+}
+.flowerHeroMagicRing {
+  position: absolute;
+  left: 50%;
+  top: 49%;
+  width: 360px;
+  height: 360px;
+  transform: translate(-50%,-50%);
+  border: 2px solid rgba(143,226,255,.22);
+  border-radius: 50%;
+  box-shadow: 0 0 40px rgba(110,213,255,.14), inset 0 0 36px rgba(218,176,255,.12);
+  animation: flowerMagicRingSpin 10s linear infinite;
+}
+.flowerHeroMagicRing::before, .flowerHeroMagicRing::after {
+  content: "";
+  position: absolute;
+  inset: 34px;
+  border: 1px dashed rgba(255,231,154,.27);
+  border-radius: 50%;
+}
+.flowerHeroMagicRing::after { inset: 76px; border-style: solid; border-color: rgba(194,162,255,.18); }
+.flowerHeroSpark { position: absolute; z-index: 2; color: #fff0a7; text-shadow: 0 0 16px currentColor; animation: flowerHeroSpark 1.7s ease-in-out infinite; }
+.flowerHeroSpark.sparkA { left: 18%; top: 26%; font-size: 30px; }
+.flowerHeroSpark.sparkB { right: 15%; top: 34%; font-size: 22px; animation-delay: .5s; color: #a9edff; }
+.flowerHeroSpark.sparkC { right: 23%; bottom: 25%; font-size: 25px; animation-delay: 1s; color: #efb9ff; }
+@keyframes flowerTitleWitchFloat {
+  0%,100% { transform: translate(-50%,-50%) translateY(0) rotate(-.6deg); }
+  50% { transform: translate(-50%,-50%) translateY(-9px) rotate(.7deg); }
+}
+@keyframes flowerMagicRingSpin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+@keyframes flowerHeroSpark { 0%,100% { opacity:.35; transform:scale(.8) rotate(0deg); } 50% { opacity:1; transform:scale(1.18) rotate(18deg); } }
+.flowerHeroCaption {
+  position: absolute;
+  z-index: 2;
+  right: 22px;
+  bottom: 23px;
+  min-width: 250px;
+  padding: 11px 16px;
+  border: 1px solid rgba(255,255,255,.31);
+  border-radius: 14px;
+  background: rgba(24,17,37,.74);
+  backdrop-filter: blur(7px);
+  text-align: right;
+}
+.flowerHeroCaption span { display: block; color: #e5dcf3; font-size: 11px; }
+.flowerHeroCaption b { display: block; margin-top: 2px; color: #fff0ab; font-size: 19px; }
+
+.flowerTitleCat {
+  position: absolute;
+  z-index: 7;
+  right: 46px;
+  bottom: 42px;
+  width: 110px;
+  height: 124px;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 12px rgba(20, 9, 28, .38));
+  transform-origin: 50% 90%;
+  transition: transform .22s ease, width .22s ease, height .22s ease, right .22s ease, bottom .22s ease;
+  animation: flowerTitleCatBob 2.2s ease-in-out infinite;
+}
+.flowerTitleCat.state-idle {
+  width: 112px;
+  height: 124px;
+}
+.flowerTitleCat.state-sit {
+  right: 38px;
+  bottom: 38px;
+  width: 104px;
+  height: 118px;
+}
+.flowerTitleCat.state-pounce {
+  right: 32px;
+  bottom: 34px;
+  width: 120px;
+  height: 114px;
+}
+.flowerTitleCat.state-sleep {
+  right: 26px;
+  bottom: 28px;
+  width: 124px;
+  height: 96px;
+}
+@keyframes flowerTitleCatBob {
+  0%,100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-5px) rotate(1deg); }
+}
+.flowerTitleCat.state-walk { width: 130px; height: 112px; right: 28px; bottom: 36px; }
+.flowerTitleCat.state-happy { width: 112px; height: 126px; right: 36px; bottom: 34px; }
+.flowerTitleCat.state-surprised { width: 108px; height: 126px; right: 36px; bottom: 34px; }
+.flowerTitleCat.state-question { width: 108px; height: 126px; right: 36px; bottom: 34px; }
+.flowerTitleCat.state-roll { width: 124px; height: 105px; right: 28px; bottom: 32px; }

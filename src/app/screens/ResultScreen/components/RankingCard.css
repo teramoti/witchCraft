@@ -1,0 +1,82 @@
+.flowerRanking { display: grid; gap: 12px; height: 438px; align-items: stretch; justify-content: center; }
+.flowerRanking.count-1 { grid-template-columns: 310px; }
+.flowerRanking.count-2 { grid-template-columns: repeat(2, 310px); }
+.flowerRanking.count-3 { grid-template-columns: repeat(3, 285px); }
+.flowerRanking.count-4 { grid-template-columns: repeat(4, 250px); }
+.flowerRanking article {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  padding: 24px 20px 18px;
+  border: 2px solid rgba(111,86,132,.42);
+  border-radius: 18px;
+  background: linear-gradient(180deg,#fff9e9,#f0e3cc);
+  box-shadow: 0 15px 32px rgba(0,0,0,.26);
+  text-align: center;
+}
+.flowerRanking article.first { border-color: #ffd65f; box-shadow: 0 0 24px rgba(255,211,89,.35), 0 16px 34px rgba(0,0,0,.28); }
+.flowerRankFlag {
+  position: absolute;
+  z-index: 4;
+  left: 14px;
+  top: 14px;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #41264f;
+  color: #ffe58f;
+  border: 2px solid #d9b35c;
+}
+.flowerRankFlag b { font-family: Georgia,serif; font-size: 22px; line-height: .8; }
+.flowerRankFlag small { font-size: 8px; margin-top: -8px; }
+.flowerCardSlash { position: absolute; z-index: 2; right: -30px; top: -16px; width: 190px; height: 92px; transform: rotate(-8deg); opacity: .96; pointer-events: none; }
+.flowerCardSlash img, .flowerDynamicSlash { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.flowerDynamicSlash { clip-path: polygon(0 30%,100% 0,100% 52%,0 100%); opacity: .78; }
+.flowerCardSlash img { opacity: .42; mix-blend-mode: multiply; }
+.flowerPlayerMark {
+  position: relative;
+  z-index: 3;
+  width: 132px;
+  height: 132px;
+  margin: 13px auto 4px;
+  display: grid;
+  place-items: end center;
+  overflow: visible;
+}
+.flowerPlayerMark::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  bottom: 8px;
+  width: 98px;
+  height: 28px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(71,42,82,.18);
+  filter: blur(6px);
+}
+.flowerResultWitch {
+  width: 128px;
+  height: 128px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 8px rgba(51,24,66,.20));
+  transform-origin: 50% 100%;
+  animation: flowerResultWitchFloat 2.4s ease-in-out infinite;
+}
+.flowerRanking article.first .flowerResultWitch { animation: flowerWinnerWitch 1.6s ease-in-out infinite; }
+@keyframes flowerResultWitchFloat { 0%,100% { transform: translateY(0) rotate(-.5deg); } 50% { transform: translateY(-4px) rotate(.5deg); } }
+@keyframes flowerWinnerWitch { 0%,100% { transform: translateY(0) scale(1); } 45% { transform: translateY(-7px) scale(1.035); } 55% { transform: translateY(-7px) scale(1.035) rotate(1deg); } }
+.flowerPlayerName { display: block; color: #4f315a; font-size: 15px; letter-spacing: .1em; }
+.flowerScore { display: block; margin: 2px 0 12px; color: #4e2a59; font-family: Georgia,serif; font-size: 39px; }
+.flowerScore small { margin-left: 3px; font-size: 13px; }
+.flowerStats { margin: 0; padding: 9px 12px; border-top: 1px solid rgba(86,61,92,.18); border-bottom: 1px solid rgba(86,61,92,.18); }
+.flowerStats > div { display: flex; justify-content: space-between; padding: 3px 0; color: #57475e; font-size: 11px; }
+.flowerStats dt { font-weight: 700; }
+.flowerStats dd { margin: 0; color: #3f2647; font-weight: 900; }
+.flowerColorName { margin-top: 11px; }
+.flowerColorName small { display: block; color: #8c758e; font-size: 8px; letter-spacing: .12em; }
+.flowerColorName b { display: block; margin-top: 2px; color: #633c6b; font-size: 13px; }
+.flowerColorBar { display: block; width: 100%; height: 9px; margin-top: 7px; border-radius: 999px; border: 1px solid rgba(64,37,72,.22); }
